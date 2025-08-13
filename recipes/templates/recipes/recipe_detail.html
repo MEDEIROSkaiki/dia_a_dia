@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3D5AFE;
+            --dark-text: #212121;
+            --light-text: #757575;
+            --background-color: #f5f7fa;
+        }
+        body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--background-color); color: var(--dark-text); margin: 0; line-height: 1.8; }
+        .site-header { background: linear-gradient(90deg, var(--primary-color) 0%, #2979FF 100%); color: white; padding: 1rem 2rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .site-header h1 { font-family: 'Playfair Display', serif; margin: 0; font-size: 2rem; }
+        .article-container { max-width: 800px; margin: 3rem auto; padding: 3rem; background-color: #fff; border-radius: 15px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .back-link { display: inline-block; margin-bottom: 2rem; color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .article-title { font-family: 'Playfair Display', serif; font-size: 3rem; line-height: 1.2; margin: 0 0 1rem 0; }
+        .article-meta { color: var(--light-text); border-bottom: 1px solid #eee; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+        .featured-image img { width: 100%; height: auto; border-radius: 10px; margin-bottom: 2rem; }
+        .article-content { font-size: 1.1rem; }
+        .site-footer { text-align: center; margin-top: 4rem; padding: 2rem; color: var(--light-text); }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>Meu Dia a Dia</h1>
+    </header>
+
+    <div class="article-container">
+        <!-- O nome da rota da lista é 'home' -->
+        <a href="{% url 'home' %}" class="back-link">← Ver todos os eventos</a>
+
+        <article>
+            <header>
+                <h1 class="article-title">{{ recipe.title }}</h1>
+                <div class="article-meta">
+                    {% if recipe.event_time %}
+                        <span><strong>Quando:</strong> {{ recipe.event_time|time:"H:i" }}</span>
+                    {% endif %}
+                    {% if recipe.location and recipe.event_time %} | {% endif %}
+                    {% if recipe.location %}
+                        <span><strong>Onde:</strong> {{ recipe.location }}</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if recipe.image %}
+                <div class="featured-image">
+                    <img src="{{ recipe.image.url }}" alt="Imagem de {{ recipe.title }}">
+                </div>
+            {% endif %}
+
+            <section class="article-content">
+                <p>{{ recipe.description|linebreaks }}</p>
+            </section>
+        </article>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; {% now "Y" %} Meu Blog Pessoal. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
